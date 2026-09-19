@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  *
@@ -156,6 +157,7 @@ public class Proyecto {
             while ((linea = lector.readLine()) != null) {
 
                 System.out.println(linea);
+                
 
             }
 
@@ -167,6 +169,56 @@ public class Proyecto {
 
         }
     }
+    public static void eliminarUsuario(String correoABorrar) {
+
+    ArrayList<String> lineas = new ArrayList<>();
+    boolean encontrado = false;
+
+    // PASO 1: leer todo el archivo y guardarlo en memoria
+    try {
+        FileReader archivo = new FileReader("usuarios.txt");
+        BufferedReader lector = new BufferedReader(archivo);
+        String linea;
+
+        while ((linea = lector.readLine()) != null) {
+            String[] partes = linea.split(";");
+
+            // PASO 2: si el correo coincide, NO lo agregamos a la lista
+            if (partes.length >= 3 && partes[2].equalsIgnoreCase(correoABorrar)) {
+                encontrado = true;
+            } else {
+                lineas.add(linea);
+            }
+        }
+        lector.close();
+
+    } catch (IOException e) {
+        System.out.println("No hay usuarios registrados.");
+        return;
+    }
+
+    if (!encontrado) {
+        System.out.println("No se encontro ningun usuario con ese correo.");
+        return;
+    }
+
+    // PASO 3: reescribir el archivo con los que quedaron
+    try {
+        FileWriter archivo = new FileWriter("usuarios.txt", false);
+        BufferedWriter escritor = new BufferedWriter(archivo);
+
+        for (int i = 0; i < lineas.size(); i++) {
+            escritor.write(lineas.get(i));
+            escritor.newLine();
+        }
+        escritor.close();
+
+        System.out.println("Usuario eliminado correctamente.");
+
+    } catch (IOException e) {
+        System.out.println("Ocurrio un error al eliminar el usuario.");
+    }
+}
 }
 
    
