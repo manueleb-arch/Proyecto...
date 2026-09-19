@@ -1,4 +1,8 @@
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -9,129 +13,162 @@ public class Proyecto {
 
     /**
      * Un programa que ayude a las personas para que puedan realizar un plan de ahorro
-       para poder llegar a una meta de comprar un aparato electrónico, un vehículo, o
-        algún viaje a futuro. Este programa facilita al usuario al no estar sacando calculo
-        extenso para poder saber cuanto tiempo y esfuerzo necesita para cumplir su
-        objetivo.
-        * 
-        * Etapa 1 — Lo que ya tienes
-            Bienvenida.
-            Políticas de privacidad.
-            Aceptación.
-
-        Etapa 2
-            Crear usuario.
-            Pedir datos.
-            Validar datos.
-
-        Etapa 3
-            Guardar usuarios en usuarios.txt.
-
-        Etapa 4
-            Leer usuarios al iniciar el programa.
-            Mostrar usuarios existentes.
-            Permitir seleccionar uno.
-
-        Etapa 5
-            Crear el plan de ahorro.
-            Precio de la meta.
-            Ahorro actual.
-            Ahorro mensual.
-
-        Etapa 6
-            Calcular cuánto tiempo necesita para alcanzar la meta.
-
-        Etapa 7
-            Guardar también el plan de ahorro.
+     * para poder llegar a una meta de comprar un aparato electronico, un vehiculo, o
+     * algun viaje a futuro.
+     *
+     * Etapa 1 - Bienvenida, politicas de privacidad, aceptacion.  (LISTO)
+     * Etapa 2 - Crear usuario, pedir datos, validar datos.        (LISTO)
+     * Etapa 3 - Guardar usuarios en usuarios.txt.                 (LISTO)
+     * Etapa 4 - Leer usuarios al iniciar y mostrarlos.            (LISTO)
+     * Etapa 5 - Crear el plan de ahorro.                          (pendiente)
+     * Etapa 6 - Calcular el tiempo para alcanzar la meta.         (pendiente)
+     * Etapa 7 - Guardar tambien el plan de ahorro.                (pendiente)
      */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        
-        System.out.println("Bienvenido al prorama de plan de ahorro de datos.");
-        System.out.print("===========================================");
+
+        System.out.println("Bienvenido al programa de plan de ahorro.");
+        System.out.println("===========================================");
         System.out.println();
-        System.out.println();
-        
         System.out.println("A continuacion se te estara pidiendo unos datos");
-        System.out.println("personales los cuales son confidenciles.");
+        System.out.println("personales los cuales son confidenciales.");
         System.out.println();
-        
-        System.out.print("===========================================");       
-        System.out.println(); System.out.println("II Aceptación de Políticas de Privacidad II");
-        System.out.print("===========================================");
-        System.out.println();
-        System.out.println("Al continuar, aceptas nuestras Políticas de Privacidad y Términos de Uso.");
-        System.out.println();
-        System.out.println("Tus datos e información de metas de ahorro se utilizarán únicamente para");
-        System.out.println();
+
+        System.out.println("===========================================");
+        System.out.println("II Aceptacion de Politicas de Privacidad II");
+        System.out.println("===========================================");
+        System.out.println("Al continuar, aceptas nuestras Politicas de Privacidad y Terminos de Uso.");
+        System.out.println("Tus datos e informacion de metas de ahorro se utilizaran unicamente para");
         System.out.println("calcular tus tiempos de meta, proyecciones financieras y facilitarte el");
+        System.out.println("seguimiento de tus objetivos (vehiculo, viajes o tecnologia).");
+        System.out.println("No compartiremos tu informacion financiera con terceros.");
         System.out.println();
-        System.out.println("seguimiento de tus objetivos (vehículo, viajes o tecnología).");
-        System.out.println();
-        System.out.println("No compartiremos tu información financiera con terceros.");
-        System.out.println();
-            
-       char respuesta = AceptaciondePoliticas(sc);
-       
-       if(respuesta == 's'){
-           // Aqui empieza el inicio de seccion al aceptar las politicas
-           
-           System.out.println("BIENVENIDO AL PROGRAMA");
-       }
-       sc.close();//Sierre del programa
+
+        char respuesta = AceptaciondePoliticas(sc);
+
+        if (respuesta == 's') {
+            System.out.println("BIENVENIDO AL PROGRAMA");
+
+            // ETAPA 4: leer el archivo y mostrar los usuarios que ya existen
+            System.out.println();
+            System.out.println("--- Usuarios registrados hasta el momento ---");
+            mostrarUsuarios();
+            System.out.println();
+
+            // ETAPA 2 y 3: pedir los datos del nuevo usuario y guardarlos
+            ValidaciondeDatosparaelUsuario(sc);
+        }
+
+        sc.close(); // Cierre del programa
     }
-   public static char AceptaciondePoliticas (Scanner politica){
-       
-       char respuesta;
 
-            System.out.println("\n--- Aceptacion de las Politicas ---");
-            
-            // Aquí va la aceptacion de las politicas
+    public static char AceptaciondePoliticas(Scanner politica) {
 
-            System.out.print("¿Aceptas nuestras politicas de seguridad?" );
-            System.out.print("");
-            System.out.print("Presione 's' para continuar / cualquier otra tecla para salir): ");
-            /*A qui se le pide al usuario que va a usar esta app si quiere realizar su metod de ahorro
-              tendra que aceptar las politicas privadas que se le hace saber que sus datos no van hacer 
-              manipulados por terceros, solo se utilizarian para el respectivo proceso de su metodo de ahorro 
-              el cual va a rrealizar en esta app.
-            */
-            
-            // Lee el texto, toma la primera letra y la convierte a minúscula
-            respuesta = politica.next().toLowerCase().charAt(0);
+        char respuesta;
 
-        if (respuesta == 's'){
-            System.out.println("\n Politicas aceptadas.");
+        System.out.println("--- Aceptacion de las Politicas ---");
+        System.out.println("Aceptas nuestras politicas de seguridad?");
+        System.out.print("Presione 's' para continuar / cualquier otra tecla para salir: ");
+
+        // Lee el texto, toma la primera letra y la convierte a minuscula
+        respuesta = politica.next().toLowerCase().charAt(0);
+
+        if (respuesta == 's') {
+            System.out.println();
+            System.out.println("Politicas aceptadas.");
             System.out.println("Continuando con el programa...");
-        }//fin if
-        else{
-        System.out.println("\n Politicas no aceptadas");
-        System.out.println("Programa finalizado.");
-        
-   }//fin else
-     return respuesta;
-   }
+        } else {
+            System.out.println();
+            System.out.println("Politicas no aceptadas.");
+            System.out.println("Programa finalizado.");
+        }
+
+        return respuesta;
+    }
+
+    public static void ValidaciondeDatosparaelUsuario(Scanner dato) {
+
+        String nombre;
+        int edad;
+        String correo;
+
+        System.out.print("Ingrese su nombre: ");
+        nombre = dato.next();
+
+        // Validacion de la edad: se repite hasta que sea un numero razonable
+        do {
+            System.out.print("Ingrese su edad: ");
+            while (!dato.hasNextInt()) {
+                System.out.print("Eso no es un numero. Ingrese su edad: ");
+                dato.next(); // descarta lo que el usuario escribio mal
+            }
+            edad = dato.nextInt();
+
+            if (edad < 15 || edad > 100) {
+                System.out.println("La edad debe estar entre 15 y 100 anios.");
+            }
+        } while (edad < 15 || edad > 100);
+
+        // Validacion del correo: debe contener el caracter '@'
+        do {
+            System.out.print("Ingrese su correo: ");
+            correo = dato.next();
+
+            if (correo.indexOf('@') == -1) {
+                System.out.println("El correo no es valido, le falta el caracter '@'.");
+            }
+        } while (correo.indexOf('@') == -1);
+
+        // ETAPA 3: ya que los datos son correctos, se guardan en el archivo
+        guardarUsuario(nombre, edad, correo);
+    }
+
+    public static void guardarUsuario(String nombre, int edad, String correo) {
+
+        try {
+
+            FileWriter archivo = new FileWriter("usuarios.txt", true);
+            BufferedWriter escritor = new BufferedWriter(archivo);
+
+            escritor.write(nombre + ";" + edad + ";" + correo);
+            escritor.newLine();
+
+            escritor.close();
+
+            System.out.println("Usuario guardado correctamente.");
+
+        } catch (IOException e) {
+
+            System.out.println("Ocurrio un error al guardar el usuario.");
+
+        }
+    }
+
+    public static void mostrarUsuarios() {
+
+        try {
+
+            FileReader archivo = new FileReader("usuarios.txt");
+            BufferedReader lector = new BufferedReader(archivo);
+
+            String linea;
+
+            while ((linea = lector.readLine()) != null) {
+
+                System.out.println(linea);
+
+            }
+
+            lector.close();
+
+        } catch (IOException e) {
+
+            System.out.println("No hay usuarios registrados.");
+
+        }
+    }
 }
-  /* public static String validaciondeDatos(Scanner dato){
-      String Nom;
-      String Apell;
-      int NumCell = 0;
-      
-       System.out.println("Ingrese sus nombres: ");
-       Nom = dato.nextLine();
-       System.out.print("");
-       
-       System.out.println("Ingrese sus Apellidos: ");
-       Apell = dato.nextLine();
-       System.out.print("");
-       
-       System.out.println("Ingrese su numero de telefono: ");
-       NumCell = dato.nextInt();
-       System.out.print("");
-       
-       System.out.println("");
-       System.out.print("");
-      
-   }
-}*/
+
+   
+
 
